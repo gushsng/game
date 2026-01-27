@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据趋势分析 | 游数观</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        /* 数据趋势页特有样式 */
+        .trend-hero {
+            padding: 4rem 2rem;
+            background: linear-gradient(rgba(15, 20, 25, 0.9), rgba(15, 20, 25, 0.95)),
+                        url('https://webstatic.hoyoverse.com/upload/upload/2023/08/30/5bb7a9d1d9a9e6e3e5d5b5a5d5b5a5d5.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .trend-hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #fff, var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .trend-hero p {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .trend-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .trend-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(42, 92, 170, 0.2);
+            border: 1px solid var(--primary-blue);
+            color: var(--text-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .trend-btn:hover {
+            background: rgba(42, 92, 170, 0.4);
+        }
+        
+        .trend-btn.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .chart-section {
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .chart-card:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(42, 92, 170, 0.1);
+        }
+        
+        .chart-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .chart-card h3 i {
+            font-size: 1.2rem;
+        }
+        
+        .chart-container-lg {
+            width: 100%;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+        
+        .chart-description {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .data-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .data-info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .data-info-card i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .data-info-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .data-info-card p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+        
+        .time-selector {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .time-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-dim);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .time-btn:hover {
+            background: rgba(42, 92, 170, 0.2);
+            color: var(--text-light);
+        }
+        
+        .time-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="main-nav">
+        <div class="nav-brand">
+            <i class="fas fa-chart-network"></i>
+            <h1>游数观</h1>
+            <span class="tagline">二游数据雷达</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> 首页</a>
+            <a href="discussion.html"><i class="fas fa-comments"></i> 游戏讨论</a>
+            <a href="trend.html" class="active"><i class="fas fa-chart-line"></i> 数据趋势</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> 关于</a>
+        </div>
+    </nav>
+
+    <!-- 数据趋势页横幅 -->
+    <header class="trend-hero">
+        <div class="hero-content">
+            <h2><i class="fas fa-chart-line"></i> 数据趋势分析</h2>
+            <p>深度洞察二次元手游市场趋势，多维数据可视化呈现</p>
+            
+            <div class="trend-controls">
+                <button class="trend-btn active" onclick="showTrend('热度')">热度趋势</button>
+                <button class="trend-btn" onclick="showTrend('流水')">流水趋势</button>
+                <button class="trend-btn" onclick="showTrend('口碑')">口碑变化</button>
+                <button class="trend-btn" onclick="showTrend('对比')">游戏对比</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 时间选择器 -->
+    <div class="time-selector">
+        <button class="time-btn active">7天</button>
+        <button class="time-btn">30天</button>
+        <button class="time-btn">90天</button>
+        <button class="time-btn">1年</button>
+    </div>
+
+    <!-- 图表展示区 -->
+    <main class="chart-section">
+        <div class="chart-grid">
+            <!-- 热度趋势图 -->
+            <div class="chart-card">
+                <h3><i class="fas fa-fire"></i> 全网热度趋势对比</h3>
+                <div id="heatTrendChart" class="chart-container-lg"></div>
+                <div class="chart-description">
+                    基于各游戏在社交媒体、论坛、视频平台的讨论声量指数，反映游戏整体热度的周期性变化。
+                </div>
+            </div>
+            
+            <!-- 流水趋势图 -->
+            <div class="chart-card">
+                <h3><i class="fas fa-yen-sign"></i> 月度流水变化</h3>
+                <div id="revenueTrendChart" class="chart-container-lg"></div>
+                <div class="chart-description">
+                    基于各渠道流水数据估算，展示游戏商业化表现的长期趋势。版本更新、活动推出通常带来流水峰值。
+                </div>
+            </div>
+            
+            <!-- 口碑变化图 -->
+            <div class="chart-card">
+                <h3><i class="fas fa-star"></i> 社区口碑变化</h3>
+                <div id="reputationChart" class="chart-container-lg"></div>
+                <div class="chart-description">
+                    综合玩家评分、社区舆论情感分析，反映游戏口碑的动态变化。负面事件通常导致口碑短期下滑。
+                </div>
+            </div>
+            
+            <!-- 游戏对比图 -->
+            <div class="chart-card">
+                <h3><i class="fas fa-balance-scale"></i> 多维度对比分析</h3>
+                <div id="comparisonChart" class="chart-container-lg"></div>
+                <div class="chart-description">
+                    从热度、流水、口碑、留存率四个维度综合对比各游戏表现，提供全面的竞争分析视角。
+                </div>
+            </div>
+        </div>
+        
+        <!-- 数据说明 -->
+        <div class="data-info-grid">
+            <div class="data-info-card">
+                <i class="fas fa-database"></i>
+                <h4>数据来源</h4>
+                <p>整合自各大应用商店、社交媒体、论坛的公开数据，每日更新</p>
+            </div>
+            <div class="data-info-card">
+                <i class="fas fa-calculator"></i>
+                <h4>计算方法</h4>
+                <p>采用加权算法综合多项指标，确保数据的客观性和可比性</p>
+            </div>
+            <div class="data-info-card">
+                <i class="fas fa-history"></i>
+                <h4>更新频率</h4>
+                <p>热度数据实时更新，流水数据每日更新，口碑数据每周更新</p>
+            </div>
+            <div class="data-info-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h4>数据声明</h4>
+                <p>所有数据均为估算值，仅供参考，不构成任何投资建议</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 返回首页按钮 -->
+    <div class="back-home" style="padding: 2rem; text-align: center;">
+        <a href="index.html" class="cta-btn secondary">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-chart-network"></i>
+                <h3>游数观</h3>
+                <p>二游数据雷达 · 客观呈现 · 数据驱动</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">首页</a>
+                <a href="discussion.html">游戏讨论</a>
+                <a href="trend.html">数据趋势</a>
+                <a href="about.html">关于我们</a>
+            </div>
+            <div class="footer-disclaimer">
+                <p>⚠️ 免责声明：本网站数据来源于公开渠道估算，仅供参考。游戏评分基于多维度算法，非官方评价。</p>
+                <p>© 2023 游数观. 本网站与各游戏厂商无官方关联。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 数据趋势切换
+        function showTrend(trendType) {
+            // 更新按钮状态
+            document.querySelectorAll('.trend-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 这里可以添加切换不同图表数据的逻辑
+            console.log(`切换到${trendType}趋势`);
+        }
+        
+        // 时间选择
+        document.querySelectorAll('.time-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // 这里可以添加更新图表时间范围的逻辑
+            });
+        });
+        
+        // 初始化ECharts图表
+        document.addEventListener('DOMContentLoaded', function() {
+            // 热度趋势图
+            const heatChart = echarts.init(document.getElementById('heatTrendChart'));
+            const heatOption = {
+                tooltip: { trigger: 'axis' },
+                legend: {
+                    data: ['原神', '崩坏：星穹铁道', '重返未来：1999', '明日方舟'],
+                    textStyle: { color: '#e8f0f8' }
+                },
+                grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+                xAxis: {
+                    type: 'category',
+                    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
+                    axisLine: { lineStyle: { color: '#4a5568' } }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: { lineStyle: { color: '#4a5568' } }
+                },
+                series: [
+                    { name: '原神', type: 'line', smooth: true, data: [120, 132, 101, 134, 90, 230, 210] },
+                    { name: '崩坏：星穹铁道', type: 'line', smooth: true, data: [220, 182, 191, 234, 290, 330, 310] },
+                    { name: '重返未来：1999', type: 'line', smooth: true, data: [150, 232, 201, 154, 190, 330, 410] },
+                    { name: '明日方舟', type: 'line', smooth: true, data: [320, 332, 301, 334, 390, 330, 320] }
+                ],
+                backgroundColor: 'transparent'
+            };
+            heatChart.setOption(heatOption);
+            
+            // 流水趋势图
+            const revenueChart = echarts.init(document.getElementById('revenueTrendChart'));
+            const revenueOption = {
+                tooltip: { trigger: 'axis' },
+                legend: {
+                    data: ['原神', '崩坏：星穹铁道', '重返未来：1999'],
+                    textStyle: { color: '#e8f0f8' }
+                },
+                grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+                xAxis: {
+                    type: 'category',
+                    data: ['3月', '4月', '5月', '6月', '7月', '8月', '9月'],
+                    axisLine: { lineStyle: { color: '#4a5568' } }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '流水（百万）',
+                    axisLine: { lineStyle: { color: '#4a5568' } }
+                },
+                series: [
+                    { name: '原神', type: 'line', smooth: true, data: [82, 93, 90, 88, 85, 95, 102] },
+                    { name: '崩坏：星穹铁道', type: 'line', smooth: true, data: [45, 52, 48, 51, 55, 58, 62] },
+                    { name: '重返未来：1999', type: 'line', smooth: true, data: [28, 35, 32, 30, 33, 38, 42] }
+                ],
+                backgroundColor: 'transparent'
+            };
+            revenueChart.setOption(revenueOption);
+            
+            // 口碑变化图
+            const reputationChart = echarts.init(document.getElementById('reputationChart'));
+            const reputationOption = {
+                tooltip: { trigger: 'axis' },
+                legend: {
+                    data: ['原神', '崩坏：星穹铁道', '重返未来：1999'],
+                    textStyle: { color: '#e8f0f8' }
+                },
+                grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+                xAxis: {
+                    type: 'category',
+                    data: ['第1周', '第2周', '第3周', '第4周', '第5周', '第6周'],
+                    axisLine: { lineStyle: { color: '#4a5568' } }
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 6,
+                    max: 10,
+                    axisLine: { lineStyle: { color: '#4a5568' } }
+                },
+                series: [
+                    { name: '原神', type: 'line', smooth: true, data: [9.2, 9.1, 9.3, 9.4, 9.2, 9.3] },
+                    { name: '崩坏：星穹铁道', type: 'line', smooth: true, data: [9.0, 9.2, 9.1, 9.3, 9.2, 9.4] },
+                    { name: '重返未来：1999', type: 'line', smooth: true, data: [8.8, 8.9, 8.7, 8.8, 8.9, 9.0] }
+                ],
+                backgroundColor: 'transparent'
+            };
+            reputationChart.setOption(reputationOption);
+            
+            // 对比雷达图
+            const comparisonChart = echarts.init(document.getElementById('comparisonChart'));
+            const comparisonOption = {
+                tooltip: { trigger: 'item' },
+                legend: {
+                    data: ['原神', '崩坏：星穹铁道', '重返未来：1999'],
+                    textStyle: { color: '#e8f0f8' }
+                },
+                radar: {
+                    indicator: [
+                        { name: '热度指数', max: 100 },
+                        { name: '流水能力', max: 100 },
+                        { name: '口碑评分', max: 100 },
+                        { name: '用户留存', max: 100 },
+                        { name: '社区活跃', max: 100 }
+                    ],
+                    shape: 'circle',
+                    axisLine: { lineStyle: { color: '#4a5568' } }
+                },
+                series: [{
+                    type: 'radar',
+                    data: [
+                        { value: [95, 98, 93, 90, 96], name: '原神' },
+                        { value: [88, 92, 94, 87, 89], name: '崩坏：星穹铁道' },
+                        { value: [85, 82, 88, 84, 86], name: '重返未来：1999' }
+                    ]
+                }],
+                backgroundColor: 'transparent'
+            };
+            comparisonChart.setOption(comparisonOption);
+            
+            // 响应式调整
+            window.addEventListener('resize', function() {
+                heatChart.resize();
+                revenueChart.resize();
+                reputationChart.resize();
+                comparisonChart.resize();
+            });
+        });
+    </script>
+</body>
+</html>

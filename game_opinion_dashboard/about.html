@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 | 游数观</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 关于页特有样式 */
+        .about-hero {
+            padding: 5rem 2rem;
+            background: linear-gradient(rgba(15, 20, 25, 0.9), rgba(15, 20, 25, 0.95)),
+                        url('https://webstatic.hoyoverse.com/upload/upload/2023/08/30/5bb7a9d1d9a9e6e3e5d5b5a5d5b5a5d5.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(42, 92, 170, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 177, 66, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+        
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #fff, var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .about-hero p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        .mission-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .mission-section h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+        }
+        
+        .mission-text {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(42, 92, 170, 0.2);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(42, 92, 170, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .feature-icon i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+        }
+        
+        .feature-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        
+        .feature-card p {
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+        
+        .team-section {
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        .team-section h3 {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            color: var(--accent-gold);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-member {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+        }
+        
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-gold));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .team-member h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .member-role {
+            color: var(--accent-gold);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .member-desc {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .tech-stack {
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        .tech-stack h3 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--accent-gold);
+        }
+        
+        .tech-icons {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .tech-icon {
+            text-align: center;
+        }
+        
+        .tech-icon i {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tech-icon span {
+            display: block;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        
+        .contact-section {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .contact-section h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: rgba(42, 92, 170, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-link:hover {
+            background: rgba(42, 92, 170, 0.3);
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+        }
+        
+        .contact-link i {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+        }
+        
+        .back-home {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="main-nav">
+        <div class="nav-brand">
+            <i class="fas fa-chart-network"></i>
+            <h1>游数观</h1>
+            <span class="tagline">二游数据雷达</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> 首页</a>
+            <a href="discussion.html"><i class="fas fa-comments"></i> 游戏讨论</a>
+            <a href="trend.html"><i class="fas fa-chart-line"></i> 数据趋势</a>
+            <a href="about.html" class="active"><i class="fas fa-info-circle"></i> 关于</a>
+        </div>
+    </nav>
+
+    <!-- 关于页横幅 -->
+    <header class="about-hero">
+        <div class="about-hero-content">
+            <h2><i class="fas fa-info-circle"></i> 关于游数观</h2>
+            <p>数据驱动洞察，客观呈现二次元手游生态</p>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="about-content">
+        <!-- 使命与愿景 -->
+        <section class="mission-section">
+            <h3>我们的使命</h3>
+            <p class="mission-text">
+                在二次元手游市场日益复杂的今天，玩家、开发者和投资者都需要更清晰的数据洞察。游数观致力于通过客观、全面的数据收集与分析，为二次元手游社区提供有价值的参考信息，推动行业的透明化与理性发展。
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h4>数据准确性</h4>
+                    <p>采用多源数据交叉验证，确保所有统计信息的准确性与可靠性，为决策提供坚实的数据基础。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>趋势可视化</h4>
+                    <p>将复杂的数据转化为直观的图表，帮助用户快速理解市场动态与游戏表现趋势。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h4>客观中立</h4>
+                    <p>坚持数据驱动的分析理念，避免主观偏见，为用户提供公正、客观的参考信息。</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 技术架构 -->
+        <section class="tech-stack">
+            <h3>技术架构</h3>
+            <p class="mission-text">游数观基于现代化的技术栈构建，确保系统的稳定性、可扩展性和优异的用户体验。</p>
+            
+            <div class="tech-icons">
+                <div class="tech-icon">
+                    <i class="fab fa-html5"></i>
+                    <span>HTML5</span>
+                </div>
+                <div class="tech-icon">
+                    <i class="fab fa-css3-alt"></i>
+                    <span>CSS3</span>
+                </div>
+                <div class="tech-icon">
+                    <i class="fab fa-js"></i>
+                    <span>JavaScript</span>
+                </div>
+                <div class="tech-icon">
+                    <i class="fab fa-python"></i>
+                    <span>Python</span>
+                </div>
+                <div class="tech-icon">
+                    <i class="fas fa-database"></i>
+                    <span>MySQL</span>
+                </div>
+                <div class="tech-icon">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>ECharts</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 团队介绍 -->
+        <section class="team-section">
+            <h3>核心团队</h3>
+            <p class="mission-text">一个热爱游戏、信仰数据的年轻人，致力于用技术改变游戏信息获取的方式。</p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>余想</h4>
+                    <div class="member-role">总负责人</div>
+                    <p class="member-desc">随便做着玩的</p>
+            </div>
+        </section>
+        
+        <!-- 联系方式 -->
+        <section class="contact-section">
+            <h3>联系我们</h3>
+            <p class="mission-text">如果您对我们的项目感兴趣，或有任何建议与合作意向，欢迎通过以下方式联系我们。</p>
+            
+            <div class="contact-links">
+                <a href="mailto:contact@youshuguan.com" class="contact-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>contact@youshuguan.com</span>
+                </a>
+                <a href="https://github.com/youshuguan" class="contact-link" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://twitter.com/youshuguan" class="contact-link" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 免责声明 -->
+        <div class="card-footer" style="margin-top: 4rem; text-align: center;">
+            <h4 style="color: var(--accent-gold); margin-bottom: 1rem;">重要声明</h4>
+            <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.6;">
+                1. 本站所有数据均来源于公开渠道，通过算法估算得出，仅供参考，不构成任何投资或决策建议。<br>
+                2. 本站与米哈游、鹰角网络、深蓝互动等游戏公司无任何商业关联。<br>
+                3. 游戏图标、名称、角色形象等均为各游戏公司的知识产权，本站仅作信息展示之用。<br>
+                4. 数据更新可能存在延迟，具体信息请以官方发布为准。<br>
+                5. 如果您是游戏公司代表，认为本站数据存在重大问题，请通过邮件联系我们。
+            </p>
+        </div>
+    </main>
+
+    <!-- 返回首页按钮 -->
+    <div class="back-home">
+        <a href="index.html" class="cta-btn secondary">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-chart-network"></i>
+                <h3>游数观</h3>
+                <p>二游数据雷达 · 客观呈现 · 数据驱动</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">首页</a>
+                <a href="discussion.html">游戏讨论</a>
+                <a href="trend.html">数据趋势</a>
+                <a href="about.html">关于我们</a>
+            </div>
+            <div class="footer-disclaimer">
+                <p>⚠️ 免责声明：本网站数据来源于公开渠道估算，仅供参考。游戏评分基于多维度算法，非官方评价。</p>
+                <p>© 2023 游数观. 本网站与各游戏厂商无官方关联。</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

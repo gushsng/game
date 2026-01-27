@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏讨论中心 | 游数观</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="main-nav">
+        <div class="nav-brand">
+            <i class="fas fa-chart-network"></i>
+            <h1>游数观</h1>
+            <span class="tagline">二游数据雷达</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> 首页</a>
+            <a href="discussion.html" class="active"><i class="fas fa-comments"></i> 游戏讨论</a>
+            <a href="#"><i class="fas fa-chart-bar"></i> 数据趋势</a>
+            <a href="#"><i class="fas fa-info-circle"></i> 关于</a>
+        </div>
+    </nav>
+
+    <!-- 讨论页横幅 -->
+    <header class="discussion-hero">
+        <div class="discussion-hero-content">
+            <h2><i class="fas fa-comments"></i> 游戏讨论中心</h2>
+            <p>探索各二次元手游的社区动态、玩家反馈与热点话题</p>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索游戏或话题...">
+                <button>搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 游戏讨论网格 -->
+    <main class="discussion-grid">
+        <div class="grid-header">
+            <h3>选择游戏查看详细讨论</h3>
+            <p>点击任意游戏卡片进入该游戏的专属讨论区</p>
+        </div>
+        
+        <div class="games-container">
+            <!-- 游戏讨论卡片 -->
+            <a href="#" class="game-discussion-card" onclick="showDiscussion('genshin')">
+                <div class="game-card-header">
+                    <div class="game-icon-large">
+                        <img src="https://uploadstatic.mihoyo.com/contentweb/20210330/2021033014183882898.png" alt="原神">
+                    </div>
+                    <div class="game-title">
+                        <h4>原神</h4>
+                        <span class="game-status online">当前热度: 高</span>
+                    </div>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="value">1,245</span>
+                        <span class="label">今日讨论</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">42</span>
+                        <span class="label">热点话题</span>
+                    </div>
+                </div>
+                <div class="trend-indicator up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>热度上升 12%</span>
+                </div>
+            </a>
+
+            <a href="#" class="game-discussion-card" onclick="showDiscussion('starrail')">
+                <div class="game-card-header">
+                    <div class="game-icon-large">
+                        <img src="https://uploadstatic.mihoyo.com/contentweb/20230426/2023042614315321978.png" alt="崩坏：星穹铁道">
+                    </div>
+                    <div class="game-title">
+                        <h4>崩坏：星穹铁道</h4>
+                        <span class="game-status stable">当前热度: 中</span>
+                    </div>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="value">892</span>
+                        <span class="label">今日讨论</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">28</span>
+                        <span class="label">热点话题</span>
+                    </div>
+                </div>
+                <div class="trend-indicator up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>热度上升 5%</span>
+                </div>
+            </a>
+
+            <a href="#" class="game-discussion-card" onclick="showDiscussion('1999')">
+                <div class="game-card-header">
+                    <div class="game-icon-large">
+                        <img src="https://img.1999.com/logo.png" alt="重返未来：1999">
+                    </div>
+                    <div class="game-title">
+                        <h4>重返未来：1999</h4>
+                        <span class="game-status stable">当前热度: 中</span>
+                    </div>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="value">756</span>
+                        <span class="label">今日讨论</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">31</span>
+                        <span class="label">热点话题</span>
+                    </div>
+                </div>
+                <div class="trend-indicator down">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>热度下降 3%</span>
+                </div>
+            </a>
+
+            <a href="#" class="game-discussion-card" onclick="showDiscussion('arknights')">
+                <div class="game-card-header">
+                    <div class="game-icon-large">
+                        <img src="https://web.hycdn.cn/arknights/web/assets/static/logo.6c7f9c4c.png" alt="明日方舟">
+                    </div>
+                    <div class="game-title">
+                        <h4>明日方舟</h4>
+                        <span class="game-status stable">当前热度: 中</span>
+                    </div>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="value">621</span>
+                        <span class="label">今日讨论</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">19</span>
+                        <span class="label">热点话题</span>
+                    </div>
+                </div>
+                <div class="trend-indicator stable">
+                    <i class="fas fa-minus"></i>
+                    <span>热度稳定</span>
+                </div>
+            </a>
+
+            <a href="#" class="game-discussion-card" onclick="showDiscussion('deepspace')">
+                <div class="game-card-header">
+                    <div class="game-icon-large">
+                        <img src="https://deepspace.yo-star.com/static/images/logo.png" alt="深空之眼">
+                    </div>
+                    <div class="game-title">
+                        <h4>深空之眼</h4>
+                        <span class="game-status low">当前热度: 低</span>
+                    </div>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="value">345</span>
+                        <span class="label">今日讨论</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">12</span>
+                        <span class="label">热点话题</span>
+                    </div>
+                </div>
+                <div class="trend-indicator up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>热度上升 8%</span>
+                </div>
+            </a>
+
+            <a href="#" class="game-discussion-card" onclick="showDiscussion('path')">
+                <div class="game-card-header">
+                    <div class="game-icon-large">
+                        <img src="https://pgrweb.hoyoverse.com/static/images/logo.png" alt="无期迷途">
+                    </div>
+                    <div class="game-title">
+                        <h4>无期迷途</h4>
+                        <span class="game-status low">当前热度: 低</span>
+                    </div>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="value">298</span>
+                        <span class="label">今日讨论</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">9</span>
+                        <span class="label">热点话题</span>
+                    </div>
+                </div>
+                <div class="trend-indicator stable">
+                    <i class="fas fa-minus"></i>
+                    <span>热度稳定</span>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <!-- 热门话题区域 -->
+    <section class="hot-topics">
+        <div class="section-header">
+            <h3><i class="fas fa-fire"></i> 今日热门话题</h3>
+            <a href="#" class="view-all">查看全部 <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="topics-list">
+            <div class="topic-card">
+                <div class="topic-header">
+                    <span class="topic-game">原神</span>
+                    <span class="topic-hot"><i class="fas fa-fire"></i> 热</span>
+                </div>
+                <h4>4.8版本新角色强度分析</h4>
+                <p>社区对新角色机制、配队、强度评价的集中讨论...</p>
+                <div class="topic-meta">
+                    <span><i class="far fa-comment"></i> 342 评论</span>
+                    <span><i class="far fa-clock"></i> 2小时前</span>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-header">
+                    <span class="topic-game">崩坏：星穹铁道</span>
+                    <span class="topic-hot"><i class="fas fa-fire"></i> 热</span>
+                </div>
+                <h4>2.4版本剧情争议讨论</h4>
+                <p>玩家对新主线剧情的评价两极分化，相关讨论...</p>
+                <div class="topic-meta">
+                    <span><i class="far fa-comment"></i> 289 评论</span>
+                    <span><i class="far fa-clock"></i> 5小时前</span>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-header">
+                    <span class="topic-game">重返未来：1999</span>
+                    <span class="topic-new"><i class="fas fa-star"></i> 新</span>
+                </div>
+                <h4>新活动奖励机制优化建议</h4>
+                <p>玩家就活动难度、奖励获取效率提出建议...</p>
+                <div class="topic-meta">
+                    <span><i class="far fa-comment"></i> 156 评论</span>
+                    <span><i class="far fa-clock"></i> 8小时前</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 返回主页按钮 -->
+    <div class="back-home">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-chart-network"></i>
+                <h3>游数观</h3>
+                <p>二游数据雷达 · 客观呈现 · 数据驱动</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">首页</a>
+                <a href="discussion.html">游戏讨论</a>
+                <a href="#">数据趋势</a>
+                <a href="#">关于我们</a>
+            </div>
+            <div class="footer-disclaimer">
+                <p>⚠️ 免责声明：本网站数据来源于公开渠道估算，仅供参考。游戏评分基于多维度算法，非官方评价。</p>
+                <p>© 2023 游数观. 本网站与各游戏厂商无官方关联。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 讨论页特定样式 -->
+    <style>
+        .discussion-hero {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(16, 185, 129, 0.15));
+            border-bottom: 1px solid var(--card-border);
+            text-align: center;
+        }
+        
+        .discussion-hero-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .discussion-hero-content p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.5rem;
+        }
+        
+        .search-box i {
+            padding: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .search-box input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            padding: 0.5rem;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+        }
+        
+        .search-box button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .search-box button:hover {
+            background: var(--primary-dark);
+        }
+        
+        .discussion-grid {
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .grid-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .grid-header h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid-header p {
+            color: var(--text-secondary);
+        }
+        
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .game-discussion-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .game-discussion-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+        
+        .game-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .game-icon-large {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--card-border);
+        }
+        
+        .game-icon-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-title h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .game-status {
+            font-size: 0.9rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .game-status.online {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .game-status.stable {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-orange);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .game-status.low {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid var(--card-border);
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1.5rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+        
+        .game-stats .stat {
+            text-align: center;
+        }
+        
+        .game-stats .value {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .game-stats .label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        
+        .trend-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            width: fit-content;
+        }
+        
+        .trend-indicator.up {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+        
+        .trend-indicator.down {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+        }
+        
+        .trend-indicator.stable {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-orange);
+        }
+        
+        .hot-topics {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h3 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .topics-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .topic-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .topic-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .topic-game {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .topic-hot, .topic-new {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .topic-hot {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+        }
+        
+        .topic-new {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+        
+        .topic-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .topic-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .topic-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .topic-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-home {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+        }
+    </style>
+
+    <script>
+        function showDiscussion(game) {
+            alert(`跳转到 ${game} 的详细讨论页面\n\n这是一个示例，未来这里会:\n1. 加载该游戏的详细讨论数据\n2. 显示话题分类\n3. 展示实时讨论流\n\n当前页面: discussion.html?game=${game}`);
+            // 未来这里可以用 window.location.href = `game-detail.html?game=${game}`;
+        }
+    </script>
+</body>
+</html>
